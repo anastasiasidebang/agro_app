@@ -1,13 +1,12 @@
-import 'package:agrotara/app_agro/notifications.dart';
-import 'package:agrotara/registrasi.dart';
 import 'package:get/get.dart';
+import 'package:agrotara/app/app_routes.dart';
 import 'package:agrotara/mainpage.dart';
 import 'package:agrotara/agrodrive.dart';
-import 'package:agrotara/app/app_routes.dart';
 import 'package:agrotara/agroinsight.dart';
 import 'package:agrotara/getstarted.dart';
 import 'package:agrotara/masuk.dart';
 import 'package:agrotara/verifikasi1.dart';
+import 'package:agrotara/registrasi.dart';
 import 'package:agrotara/app_agro/home.dart';
 import 'package:agrotara/app_agro/pengiriman.dart';
 import 'package:agrotara/app_agro/notifications.dart';
@@ -18,51 +17,51 @@ class AppPages {
   static final pages = [
     GetPage(
       name: AppRoutes.mainpage,
-      page: () => MainpagePage(),
+      page: () => OnboardingPage(),
     ),
     GetPage(
       name: AppRoutes.agrodrive,
-      page: () => AgroDrivePage(),
+      page: () => const AgroDrivePage(), // Tidak perlu onNext di sini
     ),
     GetPage(
       name: AppRoutes.agroinsight,
-      page: () => AgroInsightPage(),
+      page: () => const AgroInsightPage(), // Tidak perlu onNext di sini
     ),
     GetPage(
       name: AppRoutes.getstarted,
-      page: () => GetStartedPage(),
+      page: () =>  GetStartedPage(),
     ),
     GetPage(
       name: AppRoutes.masuk,
-      page: () => MasukPage(),
+      page: () => const MasukPage(),
     ),
     GetPage(
       name: AppRoutes.verifikasi1,
-      page: () => OTPVerificationPage(),
+      page: () => const OTPVerificationPage(),
     ),
     GetPage(
       name: AppRoutes.registrasi,
-      page: () => RegisterPage(),
+      page: () => const RegisterPage(),
     ),
     GetPage(
       name: AppRoutes.home,
-      page: () =>DashboardPage(),
+      page: () => const DashboardPage(),
     ),
     GetPage(
       name: AppRoutes.pengiriman,
-      page: () => PengirimanPage(),
+      page: () => const PengirimanPage(),
     ),
     GetPage(
-      name:AppRoutes.notifications,
-      page: () => NotificationsPage(),
+      name: AppRoutes.notifications,
+      page: () => const NotificationsPage(),
     ),
     GetPage(
       name: AppRoutes.budidaya,
-      page: () => BudidayaPage(),
+      page: () => const BudidayaPage(),
     ),
     GetPage(
       name: AppRoutes.myprofile,
-      page: () => MyProfilePage(),
+      page: () => const MyProfilePage(),
     ),
   ];
 }

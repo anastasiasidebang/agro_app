@@ -8,7 +8,6 @@ class AppRoutes {
   static const masuk = '/masuk';
   static const verifikasi1 = '/verifikasi1';
   static const registrasi = '/registrasi';
-
   static const pengiriman = '/pengiriman';
   static const notifications = '/notifications';
   static const myprofile = '/myprofile';

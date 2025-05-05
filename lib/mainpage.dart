@@ -1,115 +1,95 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'agrodrive.dart';
+import 'agroinsight.dart';
 
-class MainpagePage extends StatefulWidget {
-  const MainpagePage({super.key});
-
+class OnboardingPage extends StatefulWidget {
   @override
-  _MainpagePageState createState() => _MainpagePageState();
+  _OnboardingPageState createState() => _OnboardingPageState();
 }
 
-class _MainpagePageState extends State<MainpagePage> {
-  int currentPage = 0;
-
-  final String imagePath = 'assets/people.png';
+class _OnboardingPageState extends State<OnboardingPage> {
+  final PageController _controller = PageController();
+  int _currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-        child: Column(
-          children: [
-            const Spacer(),
-            // Gambar Ilustrasi, ukuran disesuaikan agar sama besar di semua halaman
-            Image.asset(
-              imagePath,
-              width: 250,
-              height: 250,
-              fit: BoxFit.contain,
-            ),
-            const SizedBox(height: 40),
-
-            // Judul
-            const Text(
-              'AgroSmart',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF0A3731),
+      body: Stack(
+        children: [
+          PageView(
+            controller: _controller,
+            onPageChanged: (index) {
+              setState(() {
+                _currentPage = index;
+              });
+            },
+            children: [
+              _buildPage(
+                image: 'assets/people.png',
+                title: 'AgroSmart',
+                description:
+                'Meningkatkan Efisiensi, Keberlanjutan, dan Transparansi Dalam Industri Kelapa Sawit Dan Energi Terbarukan',
               ),
+              AgroDrivePage(),
+              const AgroInsightPage(), // Tanpa onNext karena navigasi diatur dari luar
+            ],
+          ),
+          Positioned(
+            bottom: 20,
+            left: 20,
+            child: SmoothPageIndicator(
+              controller: _controller,
+              count: 3,
+              effect: WormEffect(dotHeight: 8, dotWidth: 8),
             ),
-            const SizedBox(height: 20),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green.shade700,
+        child: const Icon(Icons.arrow_forward),
+        onPressed: () {
+          if (_currentPage < 2) {
+            _controller.nextPage(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
+          } else {
+            Navigator.pushReplacementNamed(context, '/getstarted');
+          }
+        },
+      ),
+    );
+  }
 
-            // Deskripsi
-            const Text(
-              'Meningkatkan Efisiensi, Keberlanjutan, Dan\n'
-                  'Transparansi Dalam Industri Kelapa Sawit\n'
-                  'Dan Energi Terbarukan',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-              ),
+  Widget _buildPage({
+    required String image,
+    required String title,
+    required String description,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(image, height: 250),
+          const SizedBox(height: 32),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.green.shade900,
             ),
-            const Spacer(),
-
-            // Indicator + Next Button
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Tombol Bulat (Panah)
-                Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF159778),
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_forward, color: Colors.white),
-                    onPressed: () {
-                      setState(() {
-                        currentPage++;
-                        if (currentPage > 2) {
-                          currentPage = 0; // Reset ke halaman pertama
-                        }
-                      });
-                      // Routing ke halaman AgroDrivePage
-                      if (currentPage == 2) {
-                        Get.to(() => const AgroDrivePage());
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
-            // Indikator (titik di kiri bawah)
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Row(
-                children: [
-                  ...List.generate(3, (index) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: index == currentPage
-                            ? const Color(0xFF159778)
-                            : Colors.grey,
-                        shape: BoxShape.circle,
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            description,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 14, color: Colors.black87),
+          ),
+        ],
       ),
     );
   }
